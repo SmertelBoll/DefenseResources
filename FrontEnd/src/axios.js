@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:4444", //https://my-article.onrender.com    http://localhost:4444
+  baseURL: "https://defense-resources.onrender.com/", //https://defense-resources.onrender.com/    http://localhost:4444
 });
 
 // При кожному запросі вшивати токен
