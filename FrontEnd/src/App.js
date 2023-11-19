@@ -17,7 +17,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAuthMe());
-  }, []);
+  }, [dispatch]);
 
   const savedMode = window.localStorage.getItem("mode");
 
