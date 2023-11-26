@@ -19,6 +19,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import DownloadIcon from "@mui/icons-material/Download";
 import UploadIcon from "@mui/icons-material/Upload";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import ArticleIcon from "@mui/icons-material/Article";
 import { alertError, alertSuccess } from "../../alerts";
 
 const BurgerMenu = ({ sx, onClickLogout, filteredFormulars }) => {
@@ -34,6 +35,7 @@ const BurgerMenu = ({ sx, onClickLogout, filteredFormulars }) => {
     { title: "Створити формуляр", link: "/create", auth: 1, icon: <CreateIcon />, func: null },
     { title: "Завантажити формуляр", link: "", auth: 1, icon: <UploadIcon />, func: onClickUpload },
     { title: "Скачати формуляр", link: "", auth: 1, icon: <DownloadIcon />, func: onClickDownload },
+    { title: "Документація", link: "", auth: -1, icon: <ArticleIcon />, func: openDocumentation },
     { title: "Вийти", link: "", auth: 1, icon: <LogoutIcon />, func: onClickLogout },
   ];
 
@@ -123,6 +125,12 @@ const BurgerMenu = ({ sx, onClickLogout, filteredFormulars }) => {
       reader.readAsText(fileContent);
     }
   };
+
+  function openDocumentation() {
+    const url =
+      "https://docs.google.com/document/d/18FXaMm_QeLxurSPpHQR8_wXuh9s8Ih4tE91d4MO0F0k/edit?usp=sharing";
+    window.open(url, "_blank");
+  }
 
   return (
     <Box sx={{ display: "flex", ...sx }}>
