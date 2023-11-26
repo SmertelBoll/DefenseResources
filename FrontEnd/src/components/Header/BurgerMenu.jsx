@@ -21,20 +21,20 @@ import UploadIcon from "@mui/icons-material/Upload";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import { alertError, alertSuccess } from "../../alerts";
 
-const BurgerMenu = ({ sx, onClickLogout }) => {
+const BurgerMenu = ({ sx, onClickLogout, filteredFormulars }) => {
   // auth: show information to
   //  0 - users without registration
   //  1 - registered users
   //  -1 - all users
   const navLinks = [
-    { title: "Home", link: "/", auth: -1, icon: <HomeIcon />, func: null },
-    { title: "Profile", link: "/profile", auth: 1, icon: <PersonIcon />, func: null },
-    { title: "Log in", link: "/login", auth: 0, icon: <LoginIcon />, func: null },
-    { title: "Sing up", link: "/register", auth: 0, icon: <PersonAddIcon />, func: null },
-    { title: "Create a formulary", link: "/create", auth: 1, icon: <CreateIcon />, func: null },
-    { title: "Upload formularies", link: "", auth: 1, icon: <UploadIcon />, func: onClickUpload },
-    { title: "Download formularies", link: "", auth: 1, icon: <DownloadIcon />, func: onClickDownload },
-    { title: "Log out", link: "", auth: 1, icon: <LogoutIcon />, func: onClickLogout },
+    { title: "Основна сторінка", link: "/", auth: -1, icon: <HomeIcon />, func: null },
+    { title: "Профіль", link: "/profile", auth: 1, icon: <PersonIcon />, func: null },
+    { title: "Увійти", link: "/login", auth: 0, icon: <LoginIcon />, func: null },
+    { title: "Зареєструватися", link: "/register", auth: 0, icon: <PersonAddIcon />, func: null },
+    { title: "Створити формуляр", link: "/create", auth: 1, icon: <CreateIcon />, func: null },
+    { title: "Завантажити формуляр", link: "", auth: 1, icon: <UploadIcon />, func: onClickUpload },
+    { title: "Скачати формуляр", link: "", auth: 1, icon: <DownloadIcon />, func: onClickDownload },
+    { title: "Вийти", link: "", auth: 1, icon: <LogoutIcon />, func: onClickLogout },
   ];
 
   const isAuth = useSelector(selectIsAuth);
@@ -56,21 +56,23 @@ const BurgerMenu = ({ sx, onClickLogout }) => {
   };
 
   function onClickDownload() {
-    axios.get(`/formular`).then((res) => {
-      console.log(res.data);
-      if (res.data) {
-        const jsonData = JSON.stringify(res.data);
-        const blob = new Blob([jsonData], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const downloadLink = document.createElement("a");
-        downloadLink.href = url;
-        downloadLink.download = "data.json"; // Ім'я файлу, під яким він буде збережений
-        // downloadLink.innerHTML = "Скачати файл";
+    const jsonData = JSON.stringify(filteredFormulars);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    const currentDate = new Date();
 
-        // Додайте посилання на сторінку
-        downloadLink.click();
-      }
-    });
+    const year = currentDate.getFullYear().toString().slice(-2); // Отримуємо дві останні цифри року
+    const month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Додаємо 0 до місяця, якщо він складається з однієї цифри
+    const day = ("0" + currentDate.getDate()).slice(-2); // Додаємо 0 до дня, якщо він складається з однієї цифри
+    const formattedDate = `${day}-${month}-${year}`;
+
+    downloadLink.download = `formular_${formattedDate}.json`; // Ім'я файлу, під яким він буде збережений
+    // downloadLink.innerHTML = "Скачати файл";
+
+    // Додайте посилання на сторінку
+    downloadLink.click();
   }
 
   function onClickUpload() {
@@ -95,7 +97,7 @@ const BurgerMenu = ({ sx, onClickLogout }) => {
       .then((res) => {})
       .catch((err) => {
         console.warn(err);
-        if (err.response.data[0]?.msg) alertError("Formular error", err.response.data[0].msg);
+        if (err.response.data[0]?.msg) alertError("Помилка формуляру", err.response.data[0].msg);
         else alertError(err.response.data.title, err.response.data.message);
       });
   };
@@ -112,7 +114,7 @@ const BurgerMenu = ({ sx, onClickLogout }) => {
             handleSubmit(jData);
           }
 
-          alertSuccess("Formular successfully uploaded");
+          alertSuccess("Формуляр успішно завантажений");
           handleDrawerClose();
         } catch (error) {
           console.error("Помилка при розборі JSON: " + error.message);
@@ -143,7 +145,7 @@ const BurgerMenu = ({ sx, onClickLogout }) => {
         sx={{
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
-            width: "min(80vw, 300px)",
+            width: "min(80vw, 330px)",
             p: 2,
             minHeight: "100%",
             display: "flex",
@@ -223,7 +225,7 @@ const BurgerMenu = ({ sx, onClickLogout }) => {
                     </Link>
                   ) : (
                     <>
-                      {obj.title === "Upload formularies" && (
+                      {obj.title === "Завантажити формуляр" && (
                         <input
                           type="file"
                           ref={fileInputRef}
@@ -239,7 +241,7 @@ const BurgerMenu = ({ sx, onClickLogout }) => {
                           obj.func
                             ? () => {
                                 obj.func();
-                                if (obj.title !== "Upload formularies") handleDrawerClose();
+                                if (obj.title !== "Завантажити формуляр") handleDrawerClose();
                               }
                             : handleDrawerClose
                         }

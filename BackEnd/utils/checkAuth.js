@@ -16,10 +16,10 @@ export const checkAuth = (req, res, next) => {
       next(); // все нормально, можна виконувати наступну функцію в app.get
     } catch (error) {
       console.log(error);
-      return res.status(403).json({ title: "Ooops..", message: "You don't have access" });
+      return res.status(403).json({ title: "Упс..", message: "У вас недостатньо прав" });
     }
   } else {
     // return щоб не було двох відповідей
-    return res.status(403).json({ title: "Ooops..", message: "You don't have access" });
+    return res.status(403).json({ title: "Упс..", message: "У вас недостатньо прав" });
   }
 };

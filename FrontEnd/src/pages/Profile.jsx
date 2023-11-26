@@ -59,19 +59,19 @@ function Profile() {
     axios
       .patch(`/auth/update`, localData)
       .then((res) => {
-        alertSuccess("Data successfully updated");
+        alertSuccess("Дані користувача успішно оновлені");
         dispatch(fetchAuthMe());
         navigate("/");
       })
       .catch((err) => {
         console.warn(err);
-        if (err.response.data[0]?.msg) alertError("Formular error", err.response.data[0].msg);
+        if (err.response.data[0]?.msg) alertError("Помилка формуляру", err.response.data[0].msg);
         else alertError(err.response.data.title, err.response.data.message);
       });
   };
 
   const handleBack = () => {
-    alertConfirm("Are you sure you want to log out? Your changes will not be saved", () => {
+    alertConfirm("Ви впевнені, що хочете вийти? Ваші зміни не збережуться", () => {
       navigate(-1);
     });
   };
@@ -81,7 +81,7 @@ function Profile() {
   return (
     <ContainerCustom paddingY sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       <MainButton startIcon={<ArrowBackIcon />} onClick={handleBack} sx={{ alignSelf: "start" }}>
-        Back
+        Назад
       </MainButton>
       <Box
         component="form"
@@ -97,30 +97,30 @@ function Profile() {
         }}
       >
         {/* The full name of the technique */}
-        Full name
+        Повне ім'я
         <InputBox
           value={localData.fullName}
           onChange={onChangeInput}
           required
           fullWidth
           id="fullName"
-          placeholder="Enter your full name..."
+          placeholder="Введіть повне ім'я..."
           name="fullName"
           autoFocus
           inputProps={{ style: { fontSize: 24 } }} // font size of input text
           InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
           sx={{ "& .MuiOutlinedInput-notchedOutline": { borderRadius: "8px" } }}
         />
-        Military Base
+        Військова частина
         <InputBox
           value={localData.regiment}
           onChange={onChangeInput}
           required
           fullWidth
           id="regiment"
-          placeholder="Enter your regiment..."
+          placeholder="Введіть полк..."
           name="regiment"
-          label="regiment"
+          label="Полк"
           inputProps={{ style: { fontSize: 24 } }} // font size of input text
           InputLabelProps={{
             style: {
@@ -138,9 +138,9 @@ function Profile() {
           required
           fullWidth
           id="battalion"
-          placeholder="Enter your battalion..."
+          placeholder="Введіть батальйон..."
           name="battalion"
-          label="battalion"
+          label="Батальйон"
           inputProps={{ style: { fontSize: 24 } }} // font size of input text
           InputLabelProps={{
             style: {
@@ -158,9 +158,9 @@ function Profile() {
           required
           fullWidth
           id="company"
-          placeholder="Enter your company..."
+          placeholder="Введіть роту..."
           name="company"
-          label="company"
+          label="Рота"
           inputProps={{ style: { fontSize: 24 } }} // font size of input text
           InputLabelProps={{
             style: {
@@ -178,9 +178,9 @@ function Profile() {
           required
           fullWidth
           id="platoon"
-          placeholder="Enter your platoon..."
+          placeholder="Введіть взвод..."
           name="platoon"
-          label="platoon"
+          label="Взвод"
           inputProps={{ style: { fontSize: 24 } }} // font size of input text
           InputLabelProps={{
             style: {
@@ -198,9 +198,9 @@ function Profile() {
           required
           fullWidth
           id="section"
-          placeholder="Enter your section..."
+          placeholder="Введіть відділення..."
           name="section"
-          label="section"
+          label="Відділення"
           inputProps={{ style: { fontSize: 24 } }} // font size of input text
           InputLabelProps={{
             style: {
@@ -212,7 +212,7 @@ function Profile() {
           }} // font size of input label
           sx={{ "& .MuiOutlinedInput-notchedOutline": { borderRadius: "8px" } }}
         />
-        <MainButton type="submit">Save</MainButton>
+        <MainButton type="submit">Зберегти</MainButton>
       </Box>
     </ContainerCustom>
   );

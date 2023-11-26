@@ -78,8 +78,10 @@ export const getFilteredFormular = async (req, res) => {
         delete filtered[key];
       }
     }
-
+    console.log(filtered);
     const results = await FormularModel.find(filtered).sort({ createdAt: -1 }).exec();
+
+    console.log(results);
     res.json(results);
   } catch (error) {
     console.log(error);

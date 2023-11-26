@@ -123,13 +123,13 @@ function RegistrationForm() {
       const err = resData.payload.error;
       console.warn(err);
 
-      if (err.response.data[0]) alertError("Authorization error", err.response.data[0].msg);
+      if (err.response.data[0]) alertError("Помилка авторизації", err.response.data[0].msg);
       else alertError(err.response.data.title, err.response.data.message);
     } else {
       if (resData?.payload?.data?.token) {
         window.localStorage.setItem("token", resData.payload.data.token);
       } else {
-        alertError("Ooops..", "something went wrong, please try again later");
+        alertError("Упс..", "Щось пішло не так, будь ласка, повторіть спробу пізніше");
       }
     }
   };
@@ -157,7 +157,7 @@ function RegistrationForm() {
         }}
       >
         <Typography color="text.main" variant="h2">
-          Create your account
+          Створити ваш аккаунт
         </Typography>
 
         <Box
@@ -192,7 +192,7 @@ function RegistrationForm() {
             required
             fullWidth
             id="fullname"
-            label="Full Name"
+            label="Повне ім'я"
             name="fullName"
             autoFocus
           />
@@ -202,7 +202,7 @@ function RegistrationForm() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
           />
           <InputBox
@@ -211,7 +211,7 @@ function RegistrationForm() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Пароль"
             type="password"
             id="password"
           />
@@ -223,7 +223,7 @@ function RegistrationForm() {
             required
             fullWidth
             id="regiment"
-            label="Regiment"
+            label="Полк"
             name="regiment"
             autoFocus
           />
@@ -233,7 +233,7 @@ function RegistrationForm() {
             required
             fullWidth
             id="battalion"
-            label="Battalion"
+            label="Батальйон"
             name="battalion"
             autoFocus
           />
@@ -243,7 +243,7 @@ function RegistrationForm() {
             required
             fullWidth
             id="company"
-            label="Company"
+            label="Рота"
             name="company"
             autoFocus
           />
@@ -253,7 +253,7 @@ function RegistrationForm() {
             required
             fullWidth
             id="platoon"
-            label="Platoon"
+            label="Взвод"
             name="platoon"
             autoFocus
           />
@@ -263,13 +263,13 @@ function RegistrationForm() {
             required
             fullWidth
             id="section"
-            label="Section"
+            label="Відділення"
             name="section"
             autoFocus
           />
 
           <MainButton type="submit" fullWidth sx={{ borderRadius: 1 }}>
-            Sign up
+            Зареєструватися
           </MainButton>
         </Box>
       </Box>

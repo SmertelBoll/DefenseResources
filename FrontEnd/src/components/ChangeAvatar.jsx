@@ -4,7 +4,7 @@ import { Dialog, DialogTitle } from "@mui/material";
 function ChangeAvatar({ onClose, open }) {
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>item under development</DialogTitle>
+      <DialogTitle>Елемент у розробці</DialogTitle>
     </Dialog>
   );
 }

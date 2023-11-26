@@ -22,6 +22,7 @@ function App() {
   const savedMode = window.localStorage.getItem("mode");
 
   const [mode, setMode] = React.useState(savedMode ? savedMode : "light");
+  const [filteredFormulars, setFilteredFormulars] = React.useState([]);
   const colorMode = React.useMemo(
     () => ({
       // The dark mode switch would invoke this method
@@ -37,10 +38,15 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-        <Header colorMode={colorMode} mode={mode} />
+        <Header colorMode={colorMode} mode={mode} filteredFormulars={filteredFormulars} />
         <main style={{ flex: "1 1 auto", backgroundColor: theme.palette.bg.main }}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/"
+              element={
+                <HomePage filteredFormulars={filteredFormulars} setFilteredFormulars={setFilteredFormulars} />
+              }
+            />
             <Route path="/register" element={<RegistrationForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/create" element={<CreateFormulary />} />

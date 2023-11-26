@@ -6,7 +6,7 @@ function NotFound() {
   return (
     <ContainerCustom sx={{ display: "flex", justifyContent: "center", mt: "30vh" }}>
       <Typography variant="h2" color="text.main">
-        Ooops, page not found...
+        Упс, сторінку не знайдено...
       </Typography>
     </ContainerCustom>
   );

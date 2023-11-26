@@ -14,7 +14,7 @@ import BurgerMenu from "./BurgerMenu";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
-function Header({ colorMode, mode }) {
+function Header({ colorMode, mode, filteredFormulars }) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ function Header({ colorMode, mode }) {
   };
 
   const onClickLogout = () => {
-    alertConfirm("Are you sure?", logOutFunc);
+    alertConfirm("Ви впевнені?", logOutFunc);
   };
 
   return (
@@ -50,16 +50,20 @@ function Header({ colorMode, mode }) {
             <>
               <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2, alignItems: "center" }}>
                 <Link to="/register">
-                  <MainButton>Sing up</MainButton>
+                  <MainButton>Зареєструватися</MainButton>
                 </Link>
                 <Link to="/login">
-                  <MainButton>Log in</MainButton>
+                  <MainButton>Увійти</MainButton>
                 </Link>
               </Box>
-              <BurgerMenu sx={{ display: { xs: "flex", md: "none" } }} onClickLogout={onClickLogout} />
+              <BurgerMenu
+                sx={{ display: { xs: "flex", md: "none" } }}
+                onClickLogout={onClickLogout}
+                filteredFormulars={filteredFormulars}
+              />
             </>
           ) : (
-            <BurgerMenu onClickLogout={onClickLogout} />
+            <BurgerMenu onClickLogout={onClickLogout} filteredFormulars={filteredFormulars} />
           )}
         </Box>
       </ContainerCustom>

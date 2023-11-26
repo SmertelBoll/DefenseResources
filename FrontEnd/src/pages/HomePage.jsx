@@ -22,8 +22,27 @@ import { selectIsAuth } from "../redux/slices/AuthSlice";
 import axios from "../axios";
 import MainButton from "../components/Buttons/MainButton";
 
+const columnLabels = {
+  regiment: "Полк",
+  battalion: "Батальйон",
+  company: "Рота",
+  platoon: "Взвод",
+  section: "Відділення",
+  nameOfTechnique: "Військава техніка",
+  count: "Кількість",
+  state: "Стан",
+};
 const nameOfMilitaryBases = ["regiment", "battalion", "company", "platoon", "section"];
 const nameOfInput = ["Regiment", "Battalion", "Company", "Platoon", "Section", "Military equipment", "State"];
+const nameOfInput_placeholder = {
+  Regiment: "Полк",
+  Battalion: "Батальйон",
+  Company: "Рота",
+  Platoon: "Взвод",
+  Section: "Відділення",
+  "Military equipment": "Військова техніка",
+  State: "Стан",
+};
 const columnsToDisplay = [
   "regiment",
   "battalion",
@@ -34,22 +53,13 @@ const columnsToDisplay = [
   "count",
   "state",
 ];
-const columnLabels = {
-  regiment: "Regiment",
-  battalion: "Battalion",
-  company: "Company",
-  platoon: "Platoon",
-  section: "Section",
-  nameOfTechnique: "Military equipment",
-  count: "Count",
-  state: "State",
-};
 const rowsPerPage = 5;
 
-function HomePage() {
+function HomePage({ filteredFormulars, setFilteredFormulars }) {
   const isAuth = useSelector(selectIsAuth);
   const [options, setOptions] = useState({
-    state: ["New equipment", "Equipment in use", "Equipment Needs repair", "Destroyed", "Inactive"],
+    state: ["Нова техніка", "Техніка в експлуатації", "Техніка потребує ремонту", "Знищене", "У резерві"],
+    // state: ["New equipment", "Equipment in use", "Equipment Needs repair", "Destroyed", "Inactive"],
     regiment: [],
     battalion: [],
     company: [],
@@ -119,7 +129,7 @@ function HomePage() {
     section: "",
     nameOfTechnique: "",
   });
-  const [result, setResult] = useState([]);
+  // const [filteredFormulars, setFilteredFormulars] = useState([]);
   const [page, setPage] = useState(0);
 
   const handleChangePage = (event, newPage) => {
@@ -133,18 +143,20 @@ function HomePage() {
           ...prev,
           [name]: res.data,
         }));
+        handleSearch();
       });
     }
   }, []);
 
   const handleSearch = () => {
+    setPage(0);
     axios
       .post("/formular/filtered", {
         ...localData,
-        state: localData.state ? localData.state.toLowerCase() : "",
+        state: localData.state ? localData.state : "",
       })
       .then((res) => {
-        setResult(res.data);
+        setFilteredFormulars(res.data);
       });
   };
 
@@ -179,7 +191,9 @@ function HomePage() {
                 name={name.toLowerCase()}
                 sx={{ width: "220px" }}
                 key={name}
-                renderInput={(params) => <TextField {...params} label={name} variant="outlined" />}
+                renderInput={(params) => (
+                  <TextField {...params} label={nameOfInput_placeholder[name]} variant="outlined" />
+                )}
               />
             ))}
             <Autocomplete
@@ -196,9 +210,7 @@ function HomePage() {
               id="nameOfTechnique"
               name="nameOfTechnique"
               sx={{ width: "220px" }}
-              renderInput={(params) => (
-                <TextField {...params} label="Military equipment" variant="outlined" />
-              )}
+              renderInput={(params) => <TextField {...params} label="Віськова техніка" variant="outlined" />}
             />
             <Autocomplete
               value={localData.state}
@@ -214,17 +226,17 @@ function HomePage() {
               id="state"
               name="state"
               sx={{ width: "220px" }}
-              renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
+              renderInput={(params) => <TextField {...params} label="Стан" variant="outlined" />}
             />
             <MainButton sx={{ width: "220px" }} onClick={handleSearch}>
-              Search
+              Пошук
             </MainButton>
           </Box>
 
           <div>
             <TablePagination
               component="div"
-              count={result.length}
+              count={filteredFormulars.length}
               page={page}
               onPageChange={handleChangePage}
               rowsPerPage={rowsPerPage}
@@ -240,13 +252,20 @@ function HomePage() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {result.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((item, index) => (
-                    <TableRow key={index}>
-                      {columnsToDisplay.map((column) => (
-                        <TableCell key={column}>{item[column]}</TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
+                  {filteredFormulars
+                    .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                    .map((item, index) => (
+                      <TableRow key={index}>
+                        {columnsToDisplay.map((column) => (
+                          <TableCell
+                            key={column}
+                            style={{ whiteSpace: item[column] === "У резерві" ? "nowrap" : "wrap" }}
+                          >
+                            {item[column]}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -255,7 +274,7 @@ function HomePage() {
       ) : (
         <Box sx={{ paddingTop: "50px" }}>
           <Typography sx={{ textAlign: "center" }} variant="h2">
-            Log in to use the service
+            Увійдіть, щоб користуватися сервісом
           </Typography>
         </Box>
       )}

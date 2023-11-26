@@ -12,7 +12,13 @@ import MainButton from "../components/Buttons/MainButton";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const stateArray = ["New equipment", "Equipment in use", "Equipment Needs repair", "Destroyed", "Inactive"];
+const stateArray = [
+  "Нова техніка",
+  "Техніка в експлуатації",
+  "Техніка потребує ремонту",
+  "Знищене",
+  "У резерві",
+];
 
 const weapon = [
   "Танк Т-64 БВ",
@@ -107,19 +113,19 @@ function CreateFormulary({ update }) {
     axios
       .post(`/formular`, formData)
       .then((res) => {
-        alertSuccess("Formular successfully created");
+        alertSuccess("Формуляр успішно створений");
         window.localStorage.removeItem("inputData");
         navigate("/");
       })
       .catch((err) => {
         console.warn(err);
-        if (err.response.data[0]?.msg) alertError("Formular error", err.response.data[0].msg);
+        if (err.response.data[0]?.msg) alertError("Помилка формуляру", err.response.data[0].msg);
         else alertError(err.response.data.title, err.response.data.message);
       });
   };
 
   const handleBack = () => {
-    alertConfirm("Are you sure you want to log out? Your changes will not be saved", () => {
+    alertConfirm("Ви впевнені, що хочете вийти? Ваші зміни не збережуться", () => {
       navigate(-1);
     });
   };
@@ -129,7 +135,7 @@ function CreateFormulary({ update }) {
   return (
     <ContainerCustom paddingY sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       <MainButton startIcon={<ArrowBackIcon />} onClick={handleBack} sx={{ alignSelf: "start" }}>
-        Back
+        Назад
       </MainButton>
       <Box
         component="form"
@@ -160,7 +166,7 @@ function CreateFormulary({ update }) {
           id="nameOfTechnique"
           name="nameOfTechnique"
           sx={{ width: "100%" }}
-          renderInput={(params) => <TextField {...params} label="Military equipment" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} label="Військова техніка" variant="outlined" />}
         />
 
         {/* count */}
@@ -170,7 +176,7 @@ function CreateFormulary({ update }) {
           required
           fullWidth
           id="count"
-          placeholder="Count..."
+          placeholder="Кількість..."
           name="count"
           // inputProps={{ style: { fontSize: 24 } }} // font size of input text
           // InputLabelProps={{ style: { fontSize: 24 } }} // font size of input label
@@ -192,7 +198,7 @@ function CreateFormulary({ update }) {
           ))}
         </Select>
 
-        <MainButton type="submit">{update ? "Update the" : "Create an"} article</MainButton>
+        <MainButton type="submit">{update ? "Оновити" : "Створити"} формуляр</MainButton>
       </Box>
     </ContainerCustom>
   );

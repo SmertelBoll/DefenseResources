@@ -60,7 +60,7 @@ function LoginForm() {
     if (data?.payload?.token) {
       window.localStorage.setItem("token", data.payload.token);
     } else {
-      alertError("Authorization error", "Incorrect login or password");
+      alertError("Помилка авторизації", "Неправильний логін або пароль");
     }
   };
 
@@ -88,7 +88,7 @@ function LoginForm() {
         }}
       >
         <Typography variant="h2" color="text.main" sx={{ mt: 2 }}>
-          Welcome
+          Вітаємо
         </Typography>
 
         <Box
@@ -102,7 +102,7 @@ function LoginForm() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
             autoFocus
           />
@@ -112,13 +112,13 @@ function LoginForm() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Пароль"
             type="password"
             id="password"
           />
 
           <MainButton type="submit" fullWidth sx={{ borderRadius: 1 }}>
-            Log in
+            Увійти
           </MainButton>
         </Box>
 
@@ -134,7 +134,7 @@ function LoginForm() {
           }}
         >
           <InfoOutlinedIcon />
-          <Typography sx={{ ml: "2px" }}>test account</Typography>
+          <Typography sx={{ ml: "2px" }}>проблий аккаунт</Typography>
         </Button>
 
         <Dialog
@@ -147,19 +147,19 @@ function LoginForm() {
           }}
         >
           <DialogTitle variant="p" sx={{ color: "text.main" }}>
-            Test account
+            Пробний аккаунт
           </DialogTitle>
           <DialogContent>
-            <DialogTitle variant="p" sx={{ color: "text.main" }}>
+            {/* <DialogTitle variant="p" sx={{ color: "text.main" }}>
               ordinary user
-            </DialogTitle>
+            </DialogTitle> */}
             <DialogContentText variant="p" sx={{ color: "text.second" }}>
-              login: user@gmail.com
+              Логін: sholop2113@gmail.com
             </DialogContentText>
             <DialogContentText variant="p" sx={{ color: "text.second" }}>
-              password: 12345
+              Пароль: 1234567890
             </DialogContentText>
-            <DialogTitle variant="p" sx={{ color: "text.main" }}>
+            {/* <DialogTitle variant="p" sx={{ color: "text.main" }}>
               admin user
             </DialogTitle>
             <DialogContentText variant="p" sx={{ color: "text.second" }}>
@@ -167,7 +167,7 @@ function LoginForm() {
             </DialogContentText>
             <DialogContentText variant="p" sx={{ color: "text.second" }}>
               password: 12345
-            </DialogContentText>
+            </DialogContentText> */}
           </DialogContent>
           <DialogActions>
             <SecondaryButton onClick={handleClose}>OK</SecondaryButton>
